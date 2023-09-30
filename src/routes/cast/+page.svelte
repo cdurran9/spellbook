@@ -4,13 +4,16 @@
 
   export let data;
 
+  let loading = false;
+
   $: spellLevels = [
     { name: '1st', total: 4, current: data.character.slots_1st },
     { name: '2nd', total: 3, current: data.character.slots_2nd },
-    { name: '3rd', total: 2, current: data.character.slots_3rd },
+    { name: '3rd', total: 3, current: data.character.slots_3rd },
   ];
 
   const handleChange = async (spellLevel: string, newValue: number) => {
+    loading = true;
     await fetch('/api/cast', {
       method: 'POST',
       headers: {
@@ -22,12 +25,14 @@
       }),
     });
     data.character[`slots_${spellLevel}`] = newValue;
+    loading = false;
   };
 </script>
 
 <div class="flex justify-between">
-  {#each spellLevels as level, index}
+  {#each spellLevels as level}
     <SpellSlots
+      {loading}
       totalSlots={level.total}
       unspentSlots={level.current}
       level={level.name}

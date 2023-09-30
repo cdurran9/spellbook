@@ -5,6 +5,7 @@
   export let unspentSlots: number;
   export let level: string;
   export let onChange = (val: number) => {};
+  export let loading = false;
 
   $: slotsArray = Array.from(Array(totalSlots)).map((_, i) =>
     i <= unspentSlots - 1 ? true : false
@@ -22,15 +23,17 @@
 <div class="root flex mb-1">
   <div class="widget bg-slate-800 rounded p-1">
     <h5 class="text-center">{level}</h5>
-    <div class="flex flex-wrap justify-around">
+    <div
+      class="slot-grid grid justify-center justify-items-center items-center gap-2-px"
+    >
       {#each slotsArray as slot}
         <div class="pip border-cyan-400 border" class:bg-cyan-400={slot} />
       {/each}
     </div>
   </div>
-  <div class="flex flex-col">
-    <button on:click={onIncrease}>🔼</button>
-    <button on:click={onDecrease}>🔽</button>
+  <div class="flex flex-col justify-around">
+    <button disabled={loading} on:click={onIncrease}>🔼</button>
+    <button disabled={loading} on:click={onDecrease}>🔽</button>
   </div>
 </div>
 
@@ -39,11 +42,14 @@
     flex: 0 0 auto;
   }
   .widget {
-    height: 48px;
     width: 48px;
   }
   .root .pip {
     width: 8px;
     height: 8px;
+  }
+
+  .slot-grid {
+    grid-template: 12px 12px / 12px 12px;
   }
 </style>

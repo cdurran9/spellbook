@@ -22,7 +22,7 @@
   ).length;
 </script>
 
-<div class="fixed top-0 right-0">{numPrepared} of 9</div>
+<div class="fixed top-0 right-0">{numPrepared} of 10</div>
 
 {#each spells as spell (spell.spell_id)}
   <Spell {spell} prepared={spell.prepared} onClick={handleClick} />
